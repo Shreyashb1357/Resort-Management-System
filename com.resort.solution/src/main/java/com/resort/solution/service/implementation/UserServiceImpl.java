@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.resort.solution.entity.User;
+import com.resort.solution.enums.Role;
 import com.resort.solution.enums.UserStatus;
 import com.resort.solution.repository.UserRepository;
 import com.resort.solution.service.UserService;
@@ -21,6 +22,7 @@ public class UserServiceImpl implements UserService {
 		if (user == null || user.getEmail() == null) {
 			return null;
 		}
+		user.setRole(Role.USER);
 		user.setStatus(UserStatus.ACTIVE);
 		return userRepo.save(user);
 	}
@@ -43,7 +45,11 @@ public class UserServiceImpl implements UserService {
 		if (email == null) {
 			return null;
 		}
-		return userRepo.findByEmail(email);
+		User user = userRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+		if (user == null) {
+			return null;
+		}
+		return user;
 	}
 
 	@Override
@@ -99,4 +105,22 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
+	@Override
+	public boolean changePassword(Integer userId, String oldPass , String newPass) {
+		User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("No such user "));
+		if(!oldPass.equals(user.getPassword())) {
+			return false;
+		}else {
+			user.setPassword(newPass);
+			userRepo.save(user);
+			return true;
+		}
+		
+	}
+
+	
+	
+	
+	
+	
 }

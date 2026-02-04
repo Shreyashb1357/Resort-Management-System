@@ -11,6 +11,7 @@ public interface RoomService {
 	Room updateRoom(Integer roomId, Room room);	
 	boolean changeRoomStatus(Integer roomId, RoomStatus status);
 	List<Room> getRoomsByResort(Resort resort);
+	Room getRoomBookedByBookingId(Integer bookingId);
 	List<Room> getAvailableRooms(RoomStatus status);
 }
 

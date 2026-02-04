@@ -12,6 +12,7 @@ public interface UserService {
 	boolean deactivateUser(Integer userId);
 	boolean activateUser(Integer userId);
 	boolean deleteUser(Integer userId);
+	boolean changePassword(Integer userId , String oldPass , String newPass);
 	
 
 }

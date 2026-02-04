@@ -5,9 +5,10 @@ import java.util.List;
 import com.resort.solution.entity.BookingService;
 
 public interface BookingServiceService {
-    BookingService addServiceToBooking(BookingService bookingService);
     boolean removeServiceFromBooking(Integer bookingServiceId);
     List<BookingService> getServicesByBooking(Integer bookingId);
+    BookingService addServiceToBooking(Integer bookingId, BookingService bookingService);
+    List<BookingService> getAllBookingServices();
 }
 
 //•	addServiceToBooking
