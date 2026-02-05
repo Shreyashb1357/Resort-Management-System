@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.resort.solution.entity.Owner;
 import com.resort.solution.entity.Resort;
+import com.resort.solution.entity.User;
 import com.resort.solution.enums.OwnerStatus;
 import com.resort.solution.enums.Role;
 import com.resort.solution.repository.OwnerRepository;
@@ -73,14 +74,14 @@ public class OnwerServiceImpl implements OwnerService {
 		if(owner.getPhone() != null) {
 			currentOwner.setPhone(owner.getPhone());
 		}
-		
+		 
 		if(owner.getEmail() != null) {
 			currentOwner.setEmail(owner.getEmail());
 		}
 		if(owner.getPassword() != null) {
 			currentOwner.setPassword(owner.getPassword());
 		}		
-		return ownerRepo.save(owner);
+		return ownerRepo.save(currentOwner);
 	}
 
 	
@@ -129,5 +130,22 @@ public class OnwerServiceImpl implements OwnerService {
 		List<Resort> resorts = resortRepo.findByOwner_OwnerId(owner.getOwnerId());
 		return resorts;
 	}
+
+
+	@Override
+	public boolean changePassword(Integer ownerId, String oldPassword, String newPassword) {
+		Owner owner = ownerRepo.findById(ownerId).orElseThrow(() -> new RuntimeException("No such owner "));
+		if(!oldPassword.equals(owner.getPassword())) {
+			return false;
+		}else {
+			owner.setPassword(newPassword);
+			ownerRepo.save(owner);
+			return true;
+		} 
+	}
+	
+	
+	
+	
 
 }

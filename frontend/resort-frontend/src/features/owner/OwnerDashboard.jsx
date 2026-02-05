@@ -142,7 +142,7 @@ export default function OwnerDashboard() {
         <Action text="Food & Services" icon={<RestaurantIcon />} onClick={() => navigate("/owner/services")} />
         <Action text="View Bookings" icon={<BookIcon />} onClick={() => navigate("/owner/bookings")} />
         <Action text="Revenue" icon={<BookIcon />} onClick={() => navigate("/owner/revenue")} />
-        {/* <Action text="New booking" icon={<BookIcon />} onClick={() => navigate("/owner/myNewbooking")} /> */}
+        <Action text="Profile" icon={<BookIcon />} onClick={() => navigate("/owner/profile")} />
 
       </Grid>
 

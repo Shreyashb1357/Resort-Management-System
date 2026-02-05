@@ -34,27 +34,52 @@ export default function Login() {
     setError("");
     setLoading(true);
 
-    try {
-      const endpoint = role === "ADMIN" ? "/admin/login" : "/user/login";
+  try {
+    const endpoint =
+      role === "ADMIN"
+        ? "/admin/login"
+        : role === "OWNER"
+        ? "/owner/login"
+        : "/user/login"; 
 
-      const res = await axios.post(`${API_BASE}${endpoint}`, null, {
-        params: { email, password }
-      });
+    const res = await axios.post(`${API_BASE}${endpoint}`, null, {
+      params: { email, password }
+    });
 
-      const token = res.data?.token;
-      if (!token) throw new Error("Invalid login response");
+    const token = res.data?.token;
+    if (!token) throw new Error("Invalid login response");
 
-      localStorage.setItem("token", token);
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+
+    if (role === "USER") {
       localStorage.setItem("userId", res.data.userId);
-      localStorage.setItem("role", role);
-
-      navigate(role === "ADMIN" ? "/admin/dashboard" : "/user/dashboard", { replace: true });
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data || "Invalid credentials. Please try again.");
-    } finally {
-      setLoading(false);
     }
+
+    if (role === "OWNER") {
+      localStorage.setItem("ownerId", res.data.ownerId);
+    }
+
+    if (role === "ADMIN") {
+      localStorage.setItem("adminId", res.data.adminId);
+    }
+
+
+    navigate(
+      role === "ADMIN"
+        ? "/admin/dashboard"
+        : role === "OWNER"
+        ? "/owner/dashboard"
+        : "/user/dashboard", 
+      { replace: true }
+    );
+  } catch (err) {
+    console.error(err);
+    setError(err.response?.data || "Invalid credentials. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+
   };
 
   return (
@@ -113,27 +138,29 @@ export default function Login() {
               </Typography>
             </Box>
 
-            {/* ===== ROLE SWITCH ===== */}
-            <Box display="flex" justifyContent="center" mb={4}>
-              <ToggleButtonGroup
-                value={role}
-                exclusive
-                onChange={(e, value) => value && setRole(value)}
-                size="medium"
-                sx={{
-                  boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
-                  borderRadius: 3,
-                  ".Mui-selected": {
-                    bgcolor: "primary.main",
-                    color: "white",
-                    "&:hover": { bgcolor: "primary.dark" }
-                  }
-                }}
-              >
-                <ToggleButton value="USER">Customer</ToggleButton>
-                <ToggleButton value="ADMIN">Admin</ToggleButton>
-              </ToggleButtonGroup>
-            </Box>
+        {/*  ===== ROLE SWITCH ===== */}
+        <Box display="flex" justifyContent="center" mb={4}>
+          <ToggleButtonGroup
+            value={role}
+            exclusive
+            onChange={(e, value) => value && setRole(value)}
+            size="medium"
+            sx={{
+              boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+              borderRadius: 3,
+              ".Mui-selected": {
+                bgcolor: "primary.main",
+                color: "white",
+                "&:hover": { bgcolor: "primary.dark" }
+              }
+            }}
+          >
+            <ToggleButton value="USER">Customer</ToggleButton>
+            <ToggleButton value="ADMIN">Admin</ToggleButton>
+            <ToggleButton value="OWNER">Owner</ToggleButton> 
+          </ToggleButtonGroup>
+        </Box>
+
 
             {/* ===== ERROR ===== */}
             {error && (

@@ -52,7 +52,7 @@ public class ResortController {
 		return imgUrl;
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PostMapping("/addAmenity")
 	public ResortAmenity addResortAmenity(@RequestBody ResortAmenity resAm) {
 		if(resAm == null || resAm.getAmenity() == null || resAm.getResort() == null) {
@@ -61,7 +61,7 @@ public class ResortController {
 		return resortAmenityServ.addAmenityToResort(resAm);
 	} 
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@GetMapping("/getAmenityByResort")
 	public @ResponseBody List<ResortAmenity> getAmenityByResort(@RequestParam Integer resortId) {
 		if(resortId == null) {
@@ -70,7 +70,7 @@ public class ResortController {
 		return resortAmenityServ.getAmenitiesByResort(resortId);
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PutMapping("/deleteAmenityFromResort")
 	public boolean deleteAmenityFromResort(@RequestParam Integer resortAmenityId) {
 		boolean deleted = resortAmenityServ.removeAmenityFromResort(resortAmenityId);
@@ -80,7 +80,7 @@ public class ResortController {
 		return true;
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PostMapping("/addResort")
 	public Resort addResort(@RequestBody Resort res) {
 		if(res == null) {
@@ -89,13 +89,13 @@ public class ResortController {
 		return resortService.addResort(res);
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PutMapping("/updateResort")
 	public Resort updateResort(@RequestParam Integer resortId , @RequestBody Resort res) {
 		return resortService.updateResort(resortId, res);
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PutMapping("/activateResort")
 	public ResponseEntity<?> activateResort(@RequestParam Integer resortId) {
 		boolean acti = resortService.activeResort(resortId);
@@ -105,7 +105,7 @@ public class ResortController {
 		return ResponseEntity.ok(Map.of("message" , "Activation successful..."));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PutMapping("/deactivateResort")
 	public ResponseEntity<?> deactivateResort(@RequestParam Integer resortId) {
 		boolean acti = resortService.deactivateResort(resortId);
@@ -133,7 +133,7 @@ public class ResortController {
 		return resortService.getTopRatedResorts(rating);
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
 	@PostMapping("/addImage")
 	public ResortImage addImg(@RequestBody ResortImage resImg) {
 		return resortImgServ.addResortImage(resImg);

@@ -35,14 +35,9 @@ build/
 
 # Eclipse
 .metadata/
+.recommenders/
 .settings/
-.classpath
-.project
 
-# Java
-*.class
-target/
-
-# OS
+# OS junk
 .DS_Store
 Thumbs.db

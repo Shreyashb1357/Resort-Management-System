@@ -13,6 +13,8 @@ export default function Payment() {
   const [paymentMode, setPaymentMode] = useState("CASH");
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
+  const [foodPrice , setFoodPrice] = useState();
+  const [foodAndRoomBill , setFoodAndRoomBill] = useState();
 
   const invoiceRef = useRef();
 
@@ -40,11 +42,19 @@ export default function Payment() {
   async function loadPrice(bookingId) {
     setSelectedBooking(bookingId);
     setPriceDetails(null);
+    
     try {
       const res = await api.get(
         `/user/bookings/getBookingPriceDetails/${bookingId}`
       );
+      
       setPriceDetails(res.data);
+
+      const resFood = await api.get(
+        `/user/foodOrder/booking/${bookingId}/food-bill`
+      );
+      setFoodPrice(resFood.data);
+      setFoodAndRoomBill(res.data.grandTotal + resFood.data);
     } catch (err) {
       console.error(err);
       alert(
@@ -159,10 +169,13 @@ export default function Payment() {
           <Row label="Room Total" value={`₹ ${priceDetails.roomTotal}`} />
           <Row label="Service Total" value={`₹ ${priceDetails.serviceTotal}`} />
           <Row label="Nights" value={priceDetails.nights} />
-
+          <Row label="Food Bill" value={foodPrice} />
           <hr style={styles.divider} />
 
           <Row label="Grand Total" value={`₹ ${priceDetails.grandTotal}`} bold />
+          <Row label="Also Food Price" value={`₹ ${foodPrice}`} bold />
+          <hr style={styles.divider} />
+          <Row label="Total" value={`₹ ${foodAndRoomBill} `} bold />
 
           <div style={{ marginTop: 12 }}>
             <label>Payment Mode</label>

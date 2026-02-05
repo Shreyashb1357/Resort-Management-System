@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.resort.solution.entity.Owner;
 import com.resort.solution.entity.Resort;
+import com.resort.solution.entity.User;
 import com.resort.solution.security.JwtUtil;
 import com.resort.solution.service.OwnerService;
 
@@ -103,6 +105,24 @@ public class OwnerController {
 	@GetMapping("/getResortsByOwnerId")
 	public List<Resort> getResortsByOwnerId(@RequestParam Integer ownerId) {
 		return ownerServ.getResortsByOwnerId(ownerId);
+	}
+	
+	@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+	@GetMapping("/Ownerme")
+	public Owner getMyProfile(Authentication authentication) {
+	    String email = authentication.getName(); // JWT sub
+	    return ownerServ.getOwnerByEmail(email);
+	}
+	
+	
+	@PreAuthorize("hasAnyRole('OWNER','ADMIN')")
+	@PutMapping("/changePassword/{ownerId}")
+	public ResponseEntity<?> changePasswordOfOwner(@PathVariable Integer ownerId , @RequestParam String oldPassword , @RequestParam String newPassword) {
+	   boolean changed = ownerServ.changePassword(ownerId, oldPassword, newPassword); 
+	   if(!changed) {
+		   return ResponseEntity.ok(Map.of("message" , "Cant change password..."));
+	   }
+	   return ResponseEntity.ok(Map.of("message" , "Password changed successfully..."));
 	}
 }
 

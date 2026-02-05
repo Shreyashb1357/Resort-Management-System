@@ -139,6 +139,7 @@ export default function Dashboard() {
         <ActionButton icon={<RecommendIcon />} text="Recommendations" onClick={() => navigate("/user/recommendations")} />
         <ActionButton text="Booking History" onClick={() => navigate("/user/bookingsHistory")} />
         <ActionButton text="Existing Booking" onClick={() => navigate("/user/existing-bookings")} />      
+        <ActionButton text="Order Food" onClick={() => navigate("/user/foodOrder")} />      
       </Grid>
 
       {/* ===== STATS ===== */}

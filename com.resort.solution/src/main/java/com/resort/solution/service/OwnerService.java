@@ -16,7 +16,7 @@ public interface OwnerService {
 	boolean deactivateOwner(Integer ownerId);
 	boolean activateOwner(Integer ownerId);
 	boolean deleteOwner(Integer ownerId);
-	
+	boolean changePassword(Integer ownerId , String oldPassword , String newPassword);
 	List<Resort> getResortsByOwnerId(Integer ownerId);
 }
 

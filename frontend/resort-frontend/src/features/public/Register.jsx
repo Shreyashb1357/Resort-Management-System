@@ -57,13 +57,22 @@ export default function Register() {
           password: form.password,
           role: "USER"
         };
-      } else {
+      } else if (role === "ADMIN") {
         endpoint = "/admin/register";
         payload = {
           name: form.name,
           email: form.email,
           password: form.password,
           role: "ADMIN"
+        };
+      } else if (role === "OWNER") { // Added OWNER logic
+        endpoint = "/owner/registerOwner";
+        payload = {
+          fullName: form.fullName,
+          email: form.email,
+          phone: form.phone,
+          password: form.password,
+          role: "OWNER"
         };
       }
 
@@ -72,7 +81,9 @@ export default function Register() {
       setSuccess(
         role === "USER"
           ? "Account created successfully. Redirecting to login..."
-          : "Admin account created successfully."
+          : role === "ADMIN"
+          ? "Admin account created successfully."
+          : "Owner account created successfully." // Added OWNER success message
       );
 
       setTimeout(() => navigate("/login"), 1500);
@@ -160,8 +171,10 @@ export default function Register() {
               >
                 <ToggleButton value="USER">Customer</ToggleButton>
                 <ToggleButton value="ADMIN">Admin</ToggleButton>
+                <ToggleButton value="OWNER">Owner</ToggleButton> {/* Added OWNER */}
               </ToggleButtonGroup>
             </Box>
+
 
             {/* ===== ALERTS ===== */}
             {error && <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>{error}</Alert>}
@@ -170,60 +183,61 @@ export default function Register() {
             {/* ===== FORM ===== */}
             <form onSubmit={handleRegister}>
               <Stack spacing={3}>
-                {role === "USER" ? (
-                  <>
-                    <TextField
-                      label="Full Name"
-                      name="fullName"
-                      required
-                      value={form.fullName}
-                      onChange={handleChange}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 3,
-                          "&.Mui-focused fieldset": {
-                            borderColor: "primary.main",
-                            boxShadow: "0 0 10px rgba(0,123,255,0.3)"
-                          }
-                        }
-                      }}
-                    />
+{role === "USER" || role === "OWNER" ? (
+  <>
+    <TextField
+      label="Full Name"
+      name="fullName"
+      required
+      value={form.fullName}
+      onChange={handleChange}
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          borderRadius: 3,
+          "&.Mui-focused fieldset": {
+            borderColor: "primary.main",
+            boxShadow: "0 0 10px rgba(0,123,255,0.3)"
+          }
+        }
+      }}
+    />
 
-                    <TextField
-                      label="Phone Number"
-                      name="phone"
-                      required
-                      value={form.phone}
-                      onChange={handleChange}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 3,
-                          "&.Mui-focused fieldset": {
-                            borderColor: "primary.main",
-                            boxShadow: "0 0 10px rgba(0,123,255,0.3)"
-                          }
-                        }
-                      }}
-                    />
-                  </>
-                ) : (
-                  <TextField
-                    label="Admin Name"
-                    name="name"
-                    required
-                    value={form.name}
-                    onChange={handleChange}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: 3,
-                        "&.Mui-focused fieldset": {
-                          borderColor: "primary.main",
-                          boxShadow: "0 0 10px rgba(0,123,255,0.3)"
-                        }
-                      }
-                    }}
-                  />
-                )}
+    <TextField
+      label="Phone Number"
+      name="phone"
+      required
+      value={form.phone}
+      onChange={handleChange}
+      sx={{
+        "& .MuiOutlinedInput-root": {
+          borderRadius: 3,
+          "&.Mui-focused fieldset": {
+            borderColor: "primary.main",
+            boxShadow: "0 0 10px rgba(0,123,255,0.3)"
+          }
+        }
+      }}
+    />
+  </>
+) : (
+  <TextField
+    label="Admin Name"
+    name="name"
+    required
+    value={form.name}
+    onChange={handleChange}
+    sx={{
+      "& .MuiOutlinedInput-root": {
+        borderRadius: 3,
+        "&.Mui-focused fieldset": {
+          borderColor: "primary.main",
+          boxShadow: "0 0 10px rgba(0,123,255,0.3)"
+        }
+      }
+    }}
+  />
+)}
+
 
                 <TextField
                   label="Email Address"
