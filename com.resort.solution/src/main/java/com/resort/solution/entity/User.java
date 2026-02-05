@@ -56,7 +56,6 @@ public class User {
     @Enumerated(EnumType.STRING)
 	@Column(name="active_status")
 	private UserStatus status;
-	
 
     @CreationTimestamp
 	@Column(name="account_createdAT" , updatable = false)

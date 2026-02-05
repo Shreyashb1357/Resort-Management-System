@@ -90,11 +90,11 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public List<Room> getRoomsByResort(Resort resort) {
-		if (resort == null) {
+	public List<Room> getRoomsByResort(Integer resortId) {
+		if (resortId == null) {
 			return null;
 		}
-		return roomRepo.findByResort_ResortId(resort.getResortId());
+		return roomRepo.findByResort_ResortId(resortId);
 	}
 
 	@Override

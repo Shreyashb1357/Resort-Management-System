@@ -1,5 +1,6 @@
 package com.resort.solution.controller;
 
+import java.util.List;
 import java.util.Map;   
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,11 @@ public class UserController {
 	@Autowired
 	private JwtUtil jwtUtil;
 		
+	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@GetMapping("/getAllUsers")
+	public List<User> getAllUsers() {
+		return userService.getAllUsers();
+	}
 
 	@PostMapping("/register")
 	public User register(@RequestBody User user) {

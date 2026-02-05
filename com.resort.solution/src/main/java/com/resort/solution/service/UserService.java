@@ -1,5 +1,7 @@
 package com.resort.solution.service;
 
+import java.util.List;
+
 import com.resort.solution.entity.User;
 
 public interface UserService {
@@ -13,6 +15,7 @@ public interface UserService {
 	boolean activateUser(Integer userId);
 	boolean deleteUser(Integer userId);
 	boolean changePassword(Integer userId , String oldPass , String newPass);
+	List<User> getAllUsers();
 	
 
 }

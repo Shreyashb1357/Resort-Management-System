@@ -33,9 +33,16 @@ build/
 .vscode/
 
 
-
+# Eclipse
 .metadata/
-.target/
+.settings/
 .classpath
 .project
-.settings/
+
+# Java
+*.class
+target/
+
+# OS
+.DS_Store
+Thumbs.db

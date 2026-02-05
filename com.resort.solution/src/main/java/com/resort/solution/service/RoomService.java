@@ -10,7 +10,7 @@ public interface RoomService {
 	Room addRoom(Room room);
 	Room updateRoom(Integer roomId, Room room);	
 	boolean changeRoomStatus(Integer roomId, RoomStatus status);
-	List<Room> getRoomsByResort(Resort resort);
+	List<Room> getRoomsByResort(Integer resortId);
 	Room getRoomBookedByBookingId(Integer bookingId);
 	List<Room> getAvailableRooms(RoomStatus status);
 }

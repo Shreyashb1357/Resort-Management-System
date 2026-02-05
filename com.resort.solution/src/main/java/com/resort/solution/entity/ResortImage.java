@@ -24,7 +24,7 @@ public class ResortImage {
 	private Integer imageId;
 	
 	@Setter
-	@Column(name="image_url" , nullable = false)
+	@Column(name="image_url" ,columnDefinition = "LONGTEXT", nullable = false)
 	private String imageUrl;
 	
 	@Setter

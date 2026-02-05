@@ -49,7 +49,7 @@ public class BookingController {
     private BookingRoomRepository bookingRoomRepo;
     
     
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
     @GetMapping("/getBookingRoomByBookingId/{bookingId}")
     public List<BookingRoom> getBookingRoomByBookingId(@PathVariable Integer bookingId) {
     	if(bookingId == null) {
@@ -59,7 +59,7 @@ public class BookingController {
     }
     
     
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
     @GetMapping("/roomByBookingId/{bookingId}")
     public Room getRoomByBookingIds(@PathVariable Integer bookingId) {
     	if(bookingId == null) {
@@ -179,7 +179,7 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN' ,'OWNER')")
     @PutMapping("/{bookingId}/confirm")
     public ResponseEntity<?> confirmBooking(@PathVariable Integer bookingId) {
         try {
@@ -190,9 +190,9 @@ public class BookingController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("error", e.getMessage()));
         }
-    }
+    } 
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN','OWNER')")
     @PutMapping("/{bookingId}/cancel")
     public ResponseEntity<?> cancelBooking(@PathVariable Integer bookingId) {
         try {
@@ -205,7 +205,7 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN','OWNER')")
     @PutMapping("/{bookingId}/complete")
     public ResponseEntity<?> completeBooking(@PathVariable Integer bookingId) {
         try {
@@ -237,13 +237,13 @@ public class BookingController {
         return bookingService.getBookingsByUser(userId);
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN' , 'OWNER')")
     @GetMapping("/resort/{resortId}")
     public List<Booking> getBookingsByResort(@PathVariable Integer resortId) {
         return bookingService.getBookingsByResort(resortId);
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN'  , 'OWNER')")
     @GetMapping("/getAllBooking")
     public List<Booking> getAllBookings() {
         return bookingService.getAllBookings();

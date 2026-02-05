@@ -52,10 +52,17 @@ public class Resort {
 	@Column(name="eco_score")
 	private EnvironmentScore ecoScore;
 	
+	@ManyToOne
+	@JoinColumn(name = "owner_id", nullable = false)
+	private Owner owner;
+
+	
 	@Setter
 	@Enumerated(EnumType.STRING)
 	@Column(name="active_status")
 	private ResortStatus isActive;
+	
+	
 	
 }
 

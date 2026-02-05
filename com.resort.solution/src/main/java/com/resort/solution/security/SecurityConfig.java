@@ -44,6 +44,10 @@ public class SecurityConfig {
         		        "/user/review/getReviewByResort",
         		        "/user/review/getResortRating"
         		 ).permitAll()
+        		.requestMatchers(
+        			"/owner/login",
+        			"/owner/registerOwner"
+        		).permitAll()
                 // Public endpoints
                 .requestMatchers(
                     "/admin/login",
@@ -60,12 +64,16 @@ public class SecurityConfig {
                     "/user/me",
                     "/user/changePassword/*",
                     "/user/bookings/rooms/*",   //for deleting room
-                    "/user/bookings/getBookingRoomByBookingId/*"
+                    "/user/bookings/getBookingRoomByBookingId/*",
+                    "/user/foodOrder/*",
+                    "/user/resort/addImage",
+                    "/user/payments/booking/*"
                 ).permitAll()
 
                 // Role-based access (NO PATH DEPENDENCY)
                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                .requestMatchers("/user/**").hasAnyRole("USER" ,"ADMIN")
+                .requestMatchers("/owner/**").hasAnyRole("ADMIN" , "OWNER")
+                .requestMatchers("/user/**").hasAnyRole("USER" ,"ADMIN" , "OWNER")
 
                 // Any other request must be authenticated
                 .anyRequest().authenticated()

@@ -58,19 +58,19 @@ public class PaymentController {
         }
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN','OWNER')")
     @GetMapping("/booking/{bookingId}")
     public List<Payment> getPaymentsByBooking(@PathVariable Integer bookingId) {
         return paymentService.getPaymentsByBooking(bookingId);
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
     @GetMapping("/user/{userId}")
     public List<Payment> getPaymentsByUser(@PathVariable Integer userId) {
         return paymentService.getAllPaymentByUserId(userId);
     }
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN'  , 'OWNER')")
     @GetMapping("/getAllPayments")
     public List<Payment> getAllPayments() {
         return paymentService.getAllPayments();

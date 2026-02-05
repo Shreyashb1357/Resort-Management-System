@@ -25,19 +25,19 @@ public class RoomController {
 	@Autowired
 	private RoomService roomService;
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
 	@PostMapping("/addRoom")
 	public Room addRoom(@RequestBody Room room) {
 		return roomService.addRoom(room);
 	} 
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
 	@PutMapping("/updateRoom")
 	public Room updateRoom(@RequestParam Integer roomId , @RequestBody Room room) {
 		return roomService.updateRoom(roomId, room);
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
 	@PutMapping("/changeStatus")
 	public ResponseEntity<?> changeStatus( @RequestParam Integer roomId, @RequestParam RoomStatus status) {
 	    if (roomId == null || status == null) {
@@ -51,12 +51,19 @@ public class RoomController {
 	    return ResponseEntity.ok(Map.of("message", "Room status updated successfully"));
 	}
 	
-	@PreAuthorize("hasAnyRole('USER','ADMIN')")
+	@PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
 	@GetMapping("/getAllAvail")
 	public List<Room> getAllAvailable() {
 		return roomService.getAvailableRooms(RoomStatus.AVAILABLE);
 	}
 	
+	
+	
+	@PreAuthorize("hasAnyRole('USER','ADMIN', 'OWNER')")
+	@GetMapping("/getRoomsByResortId")
+	public List<Room> getRoomByResortId(@RequestParam Integer resortId) {
+		return roomService.getRoomsByResort(resortId);
+	}
 	
 }
 
